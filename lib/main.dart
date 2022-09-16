@@ -1,9 +1,13 @@
-import 'dart:html';
+import 'dart:js';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'SecondView.dart';
+import 'ListOfthings.dart';
 
 void main() {
-  runApp(Myapp());
+  var state = Mystate();
+  runApp(ChangeNotifierProvider(create: (context) => state, child: Myapp()));
 }
 
 class Myapp extends StatelessWidget {
@@ -20,125 +24,71 @@ class MainView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('TIG333 TO DO LIST:'),
+            title: Text('TIG333 TO DO LIST:'),
+            backgroundColor: Colors.grey,
+            actions: <Widget>[
+              IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.more_vert,
+                    color: Colors.white,
+                  ))
+            ]),
+        body: todo_list_View(),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () async {
+            var item = await Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SecondView()),
+            );
+            Provider.of<Mystate>(context, listen: false)
+                .addItem(ListOfThings(item));
+          },
+          child: const Icon(
+            Icons.add,
+            size: 50,
+          ),
           backgroundColor: Colors.grey,
-          actions: <Widget>[
-            IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.more_vert,
-                  color: Colors.white,
-                ))
-          ],
-        ),
-        body: Center(
-          child: Column(children: [
-            Container(
-              height: 15,
-            ),
-            _duties(),
-            Container(
-              height: 5,
-            ),
-            //_buttom(),
-            Expanded(
-                child: Align(
-              alignment: FractionalOffset.bottomRight,
-              child: Container(
-                margin: EdgeInsets.only(right: 30,bottom: 30),
-                child: FloatingActionButton(
-                  child: const Icon(
-                    Icons.add,
-                    size: 50,
-                  ),
-                  backgroundColor: Colors.grey,
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => SecondView(),
-                        ));
-                  }),
-            )))
-          ]),
         ));
   }
 }
 
-Widget _duties() {
-  return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-    Checkbox(
-      value: false,
-      onChanged: (val) {},
-    ),
-    Text(
-      'köp mjölk',
-    ),
-    FloatingActionButton.small(
-      child: Icon(
-        Icons.clear,
-        size: 30,
-      ),
-      backgroundColor: Colors.grey,
-      onPressed: () {},
-    )
-  ]);
-}
-//Widget _buttom() {
-//  return Container(
-//  child: ElevatedButton(
-//  child: const Text('+'),
-//onPressed: () {
-//Navigator.push(context,
-//MaterialPageRoute(builder: (context) => SecondView(),));
-// }
-// ));
-// }
+class Todolist extends StatelessWidget {
+  final List<ListOfThings> list;
 
-class SecondView extends StatelessWidget {
+  Todolist(this.list);
+
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('TIG333 TO DO LIST:'),
-        backgroundColor: Colors.grey,
-      ),
-      body: Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          _add_task_list(),
-          _addicon(),
-        ],
-      )),
-    );
+    return ListView(children: list.map((todo) => _todoItem(todo)).toList());
+  }
+
+  
+  Widget _todoItem(todo) {
+    return Consumer<Mystate>(
+        builder: (context, state, child) => 
+        ListTile(
+        leading: Checkbox(
+          value: todo.done,
+          onChanged: (val) {
+            Provider.of<Mystate>(context, listen: false)
+                .checkItem(todo, val);
+          },
+        ),
+        title: Text(todo.message),
+        trailing: IconButton(
+          icon: Icon(Icons.clear),
+          onPressed: () {
+             var state = Provider.of<Mystate>(context, listen: false);
+             state.removeTodo(todo);
+          },
+        ),
+      ));
   }
 }
 
-Widget _add_task_list() {
-  return Container(
-    margin: EdgeInsets.only(
-      left: 50,
-      right: 50,
-      top: 30,
-    ),
-    decoration: BoxDecoration(color: Colors.white, boxShadow: [
-      BoxShadow(color: Colors.black, spreadRadius: 2),
-    ]),
-    child: TextField(
-      decoration: InputDecoration(hintText: '  What are you going to do?'),
-    ),
-  );
-}
-
-Widget _addicon() {
-  return Container(
-      margin: EdgeInsets.only(
-        top: 30,
-      ),
-      child: FloatingActionButton.small(
-        onPressed: () {},
-        backgroundColor: Colors.white,
-        child: Icon(Icons.add, color: Colors.black),
-      ));
+class todo_list_View extends StatelessWidget {
+  Widget build(BuildContext context) {
+    return Consumer<Mystate>(
+        builder: (context, state, child) => Todolist(state.list));
+  }
 }
