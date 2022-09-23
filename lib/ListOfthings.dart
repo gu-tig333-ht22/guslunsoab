@@ -4,15 +4,17 @@ class ListOfThings {
   String message;
   bool done = false;
 
-  ListOfThings(this.message);
+  ListOfThings(this.message,);
 }
 
 class Mystate extends ChangeNotifier {
-  List <ListOfThings> _list=[];
+  List<ListOfThings> _list = [];
 
   Mystate();
+  var filterby = 'All';
 
   List<ListOfThings> get list => _list;
+
 
   void addItem(ListOfThings todo) {
     _list.add(todo);
@@ -22,12 +24,15 @@ class Mystate extends ChangeNotifier {
   void checkItem(todo, val) {
     todo.done = val;
     notifyListeners();
-
   }
 
-   void removeTodo(ListOfThings todo) {
+  void removeTodo(ListOfThings todo) {
     _list.remove(todo);
     notifyListeners();
+  }
 
-   }
+  void changefilter(value) {
+    filterby = value;
+    notifyListeners();
+  }
 }
