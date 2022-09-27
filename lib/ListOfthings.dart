@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'api.dart';
 import 'package:provider/provider.dart';
 
 class ListOfThings {
@@ -70,9 +69,7 @@ class Mystate extends ChangeNotifier {
           'Content-Type': 'application/json; charset=UTF-8',
         });
 
-    // _list = (json.decode(response.body) as List)
-    //     .map((text) => ListOfThings.fromJson(text))
-    //     .toList();
+
     notifyListeners();
   }
 
@@ -80,4 +77,25 @@ class Mystate extends ChangeNotifier {
     filterby = value;
     notifyListeners();
   }
+
+  // void createlist() async {
+  //   var response = 
+  //   await http.get(Uri.parse('https://todoapp-api.apps.k8s.gu.se/todos/$?key=835792ca-8f99-4d63-b7b2-1f3594682b37')
+  //   headers: <String, String> {
+  //     'Content-Type': 'application/json; charset=UTF-8',
+  //     },
+  //     body: jsonEncode(<String, dynamic>{
+  //       'title': text.toString(),
+  //       'done': false,
+  //     }),
+  //   );
+
+  //   _list = (json.decode(response.body) as List)
+  //       .map((text) => ListOfThings.fromJson(text))
+  //       .toList();
+
+  //   notifyListeners();
+
+
+  // }
 }
