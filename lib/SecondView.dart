@@ -1,4 +1,3 @@
-import 'dart:js';
 import 'package:flutter/material.dart';
 
 class SecondView extends StatelessWidget {
@@ -40,7 +39,7 @@ class SecondView extends StatelessWidget {
       ]),
       child: TextField(
         controller: iteminput,
-        decoration: InputDecoration(labelText: '  What are you going to do?'),
+        decoration: InputDecoration( labelText: '  What are you going to do?'),
       ),
     );
   }

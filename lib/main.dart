@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'SecondView.dart';
@@ -23,22 +21,26 @@ class Myapp extends StatelessWidget {
 class MainView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-     return Scaffold(
+    return Scaffold(
         appBar: AppBar(
-            title: Text('TIG333 TO DO LIST:'),
-            backgroundColor: Colors.grey,
-            actions: [
-              PopupMenuButton(
+          title: Text('TIG333 TO DO LIST:'),
+          backgroundColor: Colors.grey,
+          actions: [
+            PopupMenuButton(
                 onSelected: (value) => {
-                  Provider.of<Mystate>(context, listen: false).changefilter(value.toString())
-                },
-                itemBuilder: (context)=> [
-                PopupMenuItem(child: Text('All'), value: 'All',),
-                PopupMenuItem(child: Text('Done'), value: 'Done'),
-                PopupMenuItem(child: Text('Undone'), value: 'Undone'),
-
-              ])],
-            ),
+                      Provider.of<Mystate>(context, listen: false)
+                          .changefilter(value.toString())
+                    },
+                itemBuilder: (context) => [
+                      PopupMenuItem(
+                        child: Text('All'),
+                        value: 'All',
+                      ),
+                      PopupMenuItem(child: Text('Done'), value: 'Done'),
+                      PopupMenuItem(child: Text('Undone'), value: 'Undone'),
+                    ])
+          ],
+        ),
         body: todo_list_View(),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
@@ -48,7 +50,7 @@ class MainView extends StatelessWidget {
             );
             if (item != null) {
               Provider.of<Mystate>(context, listen: false)
-                  .addItem(ListOfThings(item));
+              .addItem(item);
             }
           },
           child: const Icon(
@@ -104,21 +106,17 @@ class Todolist extends StatelessWidget {
 class todo_list_View extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<Mystate>(
-        builder: (context, state, child) => 
-        Todolist(
-          _filterList(state.list, state.filterby)));
+        builder: (context, state, child) =>
+            Todolist(_filterList(state.list, state.filterby)));
   }
 
-  
   List<ListOfThings> _filterList(list, filterby) {
-    if (filterby == 'All') 
-      return list;
-    if (filterby == 'Done') 
+    if (filterby == 'All') return list;
+    if (filterby == 'Done')
       return list.where((todo) => todo.done == true).toList();
-    if (filterby == 'Undone') 
+    if (filterby == 'Undone')
       return list.where((todo) => todo.done == false).toList();
     else
-      return list;    
-
+      return list;
   }
 }
