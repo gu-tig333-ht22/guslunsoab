@@ -78,9 +78,23 @@ class Mystate extends ChangeNotifier {
     notifyListeners();
   }
 
+    void createlist() async {
+    var response = await http.get(Uri.parse('https://todoapp-api.apps.k8s.gu.se/todos/?key=835792ca-8f99-4d63-b7b2-1f3594682b37'));
+    if (response.statusCode == 200) {
+        _list = (jsonDecode(response.body) as List)
+        .map((text)=> ListOfThings.fromJson(text))
+        .toList();
+    notifyListeners();
+
+    } else {
+      throw Exception('Unexpected error occured!');
+    notifyListeners();
+  }
+}
+
   // void createlist() async {
   //   var response = 
-  //   await http.get(Uri.parse('https://todoapp-api.apps.k8s.gu.se/todos/$?key=835792ca-8f99-4d63-b7b2-1f3594682b37')
+  //   await http.get(Uri.parse('https://todoapp-api.apps.k8s.gu.se/todos/?key=835792ca-8f99-4d63-b7b2-1f3594682b37'),
   //   headers: <String, String> {
   //     'Content-Type': 'application/json; charset=UTF-8',
   //     },

@@ -5,6 +5,7 @@ import 'ListOfthings.dart';
 
 void main() {
   var state = Mystate();
+  state.createlist();
   runApp(ChangeNotifierProvider(create: (context) => state, child: Myapp()));
 }
 
@@ -20,7 +21,7 @@ class Myapp extends StatelessWidget {
 
 class MainView extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
+   build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: Text('TIG333 TO DO LIST:'),
@@ -32,10 +33,7 @@ class MainView extends StatelessWidget {
                           .changefilter(value.toString())
                     },
                 itemBuilder: (context) => [
-                      PopupMenuItem(
-                        child: Text('All'),
-                        value: 'All',
-                      ),
+                      PopupMenuItem(child: Text('All'),value: 'All'),
                       PopupMenuItem(child: Text('Done'), value: 'Done'),
                       PopupMenuItem(child: Text('Undone'), value: 'Undone'),
                     ])
