@@ -6,7 +6,7 @@ class SecondView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('TIG333 ADD TO LIST:'),
+        title: Text('TIG333 ADD TASK TO LIST:'),
         backgroundColor: Colors.grey,
       ),
       body: Center(
@@ -39,7 +39,7 @@ class SecondView extends StatelessWidget {
       ]),
       child: TextField(
         controller: iteminput,
-        decoration: InputDecoration( labelText: '  What are you going to do?'),
+        decoration: InputDecoration(labelText: '  What are you going to do?'),
       ),
     );
   }

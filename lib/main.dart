@@ -21,7 +21,7 @@ class Myapp extends StatelessWidget {
 
 class MainView extends StatelessWidget {
   @override
-   build(BuildContext context) {
+  build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: Text('TIG333 TO DO LIST:'),
@@ -33,7 +33,7 @@ class MainView extends StatelessWidget {
                           .changefilter(value.toString())
                     },
                 itemBuilder: (context) => [
-                      PopupMenuItem(child: Text('All'),value: 'All'),
+                      PopupMenuItem(child: Text('All'), value: 'All'),
                       PopupMenuItem(child: Text('Done'), value: 'Done'),
                       PopupMenuItem(child: Text('Undone'), value: 'Undone'),
                     ])
@@ -47,8 +47,7 @@ class MainView extends StatelessWidget {
               MaterialPageRoute(builder: (context) => SecondView()),
             );
             if (item != null) {
-              Provider.of<Mystate>(context, listen: false)
-              .addItem(item);
+              Provider.of<Mystate>(context, listen: false).addItem(item);
             }
           },
           child: const Icon(
@@ -79,7 +78,7 @@ class Todolist extends StatelessWidget {
                       .checkItem(todo, val);
                 },
               ),
-              title: text(todo),
+              title: textliner(todo),
               trailing: IconButton(
                 icon: Icon(Icons.clear),
                 onPressed: () {
@@ -90,7 +89,7 @@ class Todolist extends StatelessWidget {
             ));
   }
 
-  Widget text(todo) {
+  Widget textliner(todo) {
     if (todo.done == true) {
       return Text(todo.message,
           style: TextStyle(decoration: TextDecoration.lineThrough));
